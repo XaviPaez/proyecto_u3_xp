@@ -13,28 +13,35 @@ import com.uce.edu.demo.repository.modelo.Hotel;
 
 @Repository
 @Transactional
-public class HotelRepositoryImpl implements IHotelRepository{
-	
+public class HotelRepositoryImpl implements IHotelRepository {
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Override
 	public List<Hotel> buscarHotelInnerJoin(String tipoHabitacion) {
-		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h JOIN h.habitaciones ha WHERE ha.tipo = :tipoHabitacion", Hotel.class);
+		// TODO Auto-generated method stub
+		TypedQuery<Hotel> myQuery=this.entityManager.createQuery("SELECT h FROM Hotel h JOIN h.habitaciones ha WHERE ha.tipo =:tipoHabitacion", Hotel.class);
 		myQuery.setParameter("tipoHabitacion", tipoHabitacion);
-		return myQuery.getResultList();
+		List<Hotel> hoteles=myQuery.getResultList();
+		for(Hotel h:hoteles) {
+			h.getHabitaciones().size();
+		}
+		return hoteles;
 	}
 
 	@Override
 	public List<Hotel> buscarHotelOuterJoinLeft(String tipoHabitacion) {
-		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h LEFT JOIN h.habitaciones ha WHERE ha.tipo = :tipoHabitacion", Hotel.class);
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery(
+				"SELECT h FROM Hotel h LEFT JOIN h.habitaciones ha WHERE ha.tipo = :tipoHabitacion", Hotel.class);
 		myQuery.setParameter("tipoHabitacion", tipoHabitacion);
 		return myQuery.getResultList();
 	}
 
 	@Override
 	public List<Hotel> buscarHotelOuterJoinRight(String tipoHabitacion) {
-		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h RIGHT JOIN h.habitaciones ha WHERE ha.tipo = :tipoHabitacion", Hotel.class);
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery(
+				"SELECT h FROM Hotel h RIGHT JOIN h.habitaciones ha WHERE ha.tipo = :tipoHabitacion", Hotel.class);
 		myQuery.setParameter("tipoHabitacion", tipoHabitacion);
 		return myQuery.getResultList();
 	}
@@ -42,34 +49,34 @@ public class HotelRepositoryImpl implements IHotelRepository{
 	@Override
 	public List<Hotel> buscarInnerJoin() {
 		// TODO Auto-generated method stub
-		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h JOIN h.habitaciones ha", Hotel.class);
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h JOIN h.habitaciones ha",
+				Hotel.class);
 		return myQuery.getResultList();
 	}
 
 	@Override
 	public List<Hotel> buscarOuterJoinLeft() {
 		// TODO Auto-generated method stub
-			TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h LEFT JOIN h.habitaciones ha", Hotel.class);
-			return myQuery.getResultList();
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery("SELECT h FROM Hotel h LEFT JOIN h.habitaciones ha",
+				Hotel.class);
+		return myQuery.getResultList();
 	}
 
 	@Override
 	public List<Hotel> buscarHotelJoinWhere(String tipoHabitacion) {
-		// TODO Auto-generated method stub
-		return null;
+		//SELECT * FROM public.hotel ho, habitacion ha where ho.hote_id = ha.habi_id_hotel and ha.habi_tipo = 'Familiar'
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery(
+				"SELECT h FROM Hotel h, Habitacion ha WHERE h = ha.hotel AND ha.tipo = :tipoHabitacion", Hotel.class);
+		myQuery.setParameter("tipoHabitacion", tipoHabitacion);
+		return myQuery.getResultList();
 	}
 
 	@Override
 	public List<Hotel> buscarHotelFetchJoin(String tipoHabitacion) {
 		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Hotel> myQuery=this.entityManager.createQuery("SELECT h FROM Hotel h JOIN FETCH h.habitaciones ha WHERE ha.tipo =:tipoHabitacion", Hotel.class);
+		myQuery.setParameter("tipoHabitacion", tipoHabitacion);
+		return myQuery.getResultList();
 	}
-
-
-
-
-
-	
-	
 
 }
