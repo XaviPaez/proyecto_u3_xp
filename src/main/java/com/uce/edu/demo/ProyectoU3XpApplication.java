@@ -52,7 +52,7 @@ public class ProyectoU3XpApplication implements CommandLineRunner {
 			}
 }*/
 
-		this.iTransferenciaService.realizarTransferencia("1234", "12134", new BigDecimal(10));
+	//	this.iTransferenciaService.realizarTransferencia("1234", "12134", new BigDecimal(10));
 	
 	}
 	

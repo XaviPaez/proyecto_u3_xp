@@ -20,7 +20,10 @@ public class CuentaBancariaRepositoryImpl implements ICuentaBancariaRepository {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-
+	@Override
+	public void insertar(CuentaBancaria cuentaBancaria) {
+		this.entityManager.persist(cuentaBancaria);
+	}
 	@Override
 	@Transactional(value = TxType.MANDATORY)
 	public void actualizar(CuentaBancaria cuenta) {
@@ -29,7 +32,7 @@ public class CuentaBancariaRepositoryImpl implements ICuentaBancariaRepository {
 	}
 
 	@Override
-	@Transactional(value = TxType.NOT_SUPPORTED)
+	//@Transactional(value = TxType.NOT_SUPPORTED)
 	public CuentaBancaria buscarPorNumero(String numero) {
 		LOG.info("Transacción activa: " + TransactionSynchronizationManager.isActualTransactionActive());
 		TypedQuery<CuentaBancaria> myQuery = this.entityManager

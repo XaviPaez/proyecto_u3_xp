@@ -88,4 +88,24 @@ public class HotelRepositoryImpl implements IHotelRepository {
 		return myQuery.getResultList();
 	}
 
+	@Override
+	public void insertar(Hotel hotel) {
+		// TODO Auto-generated method stub
+		this.entityManager.persist(hotel);
+	}
+
+	@Override
+	public void actualizar(Hotel hotel) {
+		// TODO Auto-generated method stub
+		this.entityManager.merge(hotel);
+	}
+
+	@Override
+	public Hotel buscarPorNombre(String nombre) {
+		// TODO Auto-generated method stub
+		TypedQuery<Hotel> myQuery=this.entityManager.createQuery("SELECT h FROM Hotel h WHERE h.nombre= :datoNombre", Hotel.class);
+		myQuery.setParameter("datoNombre", nombre);
+		return myQuery.getSingleResult();
+	}
+
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.uce.edu.demo.repository.IFacturaRepository;
 import com.uce.edu.demo.repository.modelo.Factura;
 
+
 @Service
 public class FacturaServiceImpl implements IFacturaService {
 

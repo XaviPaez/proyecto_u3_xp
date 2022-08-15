@@ -23,7 +23,7 @@ public class TransferenciaServiceImpl implements ITransferenciaService {
 	private ITransferenciaRepository iTransferenciaRepository;
 	
 	@Override
-	@Transactional(value = TxType.REQUIRED)
+	//@Transactional(value = TxType.REQUIRED)
 	public void realizarTransferencia(String numeroCtaOrigen, String numeroCtaDestino, BigDecimal monto) {
 		// TODO Auto-generated method stub
 		// 0.Buscar la cta orgien
@@ -50,4 +50,19 @@ public class TransferenciaServiceImpl implements ITransferenciaService {
 		
 	}
 
+	@Override
+	public void insertarCuenta(CuentaBancaria bancaria) {
+		// TODO Auto-generated method stub
+		this.bancariaRepository.insertar(bancaria);
+	}
+
+	@Override
+	public CuentaBancaria buscarPorNumero(String numeroCuenta) {
+		// TODO Auto-generated method stub
+		return this.bancariaRepository.buscarPorNumero(numeroCuenta);
+	}
+
+
+
+	
 }

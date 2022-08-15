@@ -20,4 +20,9 @@ public interface IHotelRepository {
 
 	public List<Hotel> buscarHotelFetchJoin(String tipoHabitacion);
 
+	public void insertar(Hotel hotel);
+	
+	public void actualizar(Hotel hotel);
+	
+	public Hotel buscarPorNombre(String nombre);
 }
