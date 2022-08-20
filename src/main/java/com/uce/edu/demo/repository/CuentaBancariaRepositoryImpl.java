@@ -25,14 +25,15 @@ public class CuentaBancariaRepositoryImpl implements ICuentaBancariaRepository {
 		this.entityManager.persist(cuentaBancaria);
 	}
 	@Override
-	@Transactional(value = TxType.MANDATORY)
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public void actualizar(CuentaBancaria cuenta) {
 		this.entityManager.merge(cuenta);
+	//	throw new RuntimeException();
 
 	}
 
 	@Override
-	//@Transactional(value = TxType.NOT_SUPPORTED)
+	@Transactional(value = TxType.NOT_SUPPORTED)
 	public CuentaBancaria buscarPorNumero(String numero) {
 		LOG.info("Transacción activa: " + TransactionSynchronizationManager.isActualTransactionActive());
 		TypedQuery<CuentaBancaria> myQuery = this.entityManager
