@@ -25,6 +25,8 @@ public class Cliente {
 	@Column(name = "clie_numero_tarjeta")
 	private String numeroTarjeta;
 
+
+
 	@OneToOne
 	@JoinColumn(name = "clie_ciud_id")
 	private Ciudadano ciudadano;

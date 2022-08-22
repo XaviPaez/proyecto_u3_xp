@@ -2,6 +2,9 @@ package com.uce.edu.demo.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,4 +59,13 @@ public class FacturaServiceImpl implements IFacturaService {
 		// TODO Auto-generated method stub
 		return this.FacturaRepository.buscarFacturaFetchJoin(cantidad);
 	}
+
+	@Override
+	@Transactional(value = TxType.REQUIRED)
+	public void insertar(Factura factura) {
+		// TODO Auto-generated method stub
+		this.FacturaRepository.insertar(factura);
+	}
+
+
 }

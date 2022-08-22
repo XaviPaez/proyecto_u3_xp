@@ -3,6 +3,7 @@ package com.uce.edu.demo.repository;
 import java.util.List;
 
 import com.uce.edu.demo.repository.modelo.Factura;
+import com.uce.edu.demo.repository.modelo.Producto;
 
 public interface IFacturaRepository {
 
@@ -19,4 +20,7 @@ public interface IFacturaRepository {
 	public List<Factura> buscarFacturaJoinWhere(Integer cantidad);
 
 	public List<Factura> buscarFacturaFetchJoin(Integer cantidad);
+	
+	public void insertar(Factura factura);
+	
 }

@@ -37,8 +37,6 @@ public class Factura {
 	@OneToMany(mappedBy = "factura", fetch = FetchType.LAZY)
 	private List<DetalleFactura> detalles;
 
-	
-	
 	public List<DetalleFactura> getDetalles() {
 		return detalles;
 	}

@@ -1,5 +1,6 @@
 package com.uce.edu.demo.repository.modelo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,14 +23,24 @@ public class Ciudadano {
 	private String nombre;
 	@Column(name = "ciud_apellido")
 	private String apellido;
+	@Column (name = "ciud_cedula")
+	private String cedula;
 
-	@OneToOne(mappedBy = "ciudadano")
+	@OneToOne(mappedBy = "ciudadano", cascade = CascadeType.ALL)
 	private Cliente cliente;
 
 	// SET Y GET
 
 	public Integer getId() {
 		return id;
+	}
+
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
 	}
 
 	public void setId(Integer id) {

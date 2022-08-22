@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import org.springframework.stereotype.Repository;
 
@@ -69,6 +70,13 @@ public class FacturaRepositoryImpl implements IFacturaRepository {
 		TypedQuery<Factura> myQuery=this.entityManager.createQuery("SELECT f FROM Factura f JOIN FETCH f.detalles df WHERE df.cantidad =:cantidad", Factura.class);
 		myQuery.setParameter("cantidad", cantidad);
 		return myQuery.getResultList();
+	}
+
+	@Override
+	@Transactional(value = TxType.REQUIRED)
+	public void insertar(Factura factura) {
+		// TODO Auto-generated method stub
+		this.entityManager.persist(factura);
 	}
 
 }
