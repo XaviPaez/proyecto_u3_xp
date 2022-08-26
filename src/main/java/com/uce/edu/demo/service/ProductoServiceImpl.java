@@ -32,6 +32,10 @@ public class ProductoServiceImpl implements IProductoService {
 	private IFacturaRepository facturaRepository;
 	@Autowired
 	private IFacturaElectronicaRepository electronicaRepository;
+	@Autowired
+	private IFacturaService facturaService;
+	@Autowired
+	private IFacturaElectronicaService electronicaService;
 	
 	@Override
 	public Producto buscarPorNombre(String nombre) {
@@ -48,48 +52,9 @@ public class ProductoServiceImpl implements IProductoService {
 	@Transactional(value = TxType.REQUIRED)
 	public void comprar(String cedulaCliente, String numeroFactura, List<String> codigoBarra) {
 		// TODO Auto-generated method stub
-		Cliente cliente = this.clienteRepository.buscarCliente(cedulaCliente);
-		Factura factura = new Factura();
-		factura.setCliente(cliente);
-		factura.setNumero(numeroFactura);
-		factura.setFecha(LocalDateTime.now());
-
-		List<DetalleFactura> listDetalleFacturas = new ArrayList<>();
-
-		for (String codigo : codigoBarra) {
-			Producto producto = this.iProductoRepository.buscarPorCodigoBarra(codigo);
-			DetalleFactura detalleFactura = new DetalleFactura();
-			detalleFactura.setCantidad(1);
-			detalleFactura.setProducto(producto);
-			detalleFactura.setFactura(factura);
-			detalleFactura.setSubtotal(producto.getPrecio());
-			listDetalleFacturas.add(detalleFactura);
-			
-			Integer stocknuevo = producto.getCantidadStock()-1;
-			producto.setCantidadStock(stocknuevo);
-			this.iProductoRepository.actualizar(producto);
-			
-		}
-
-		factura.setDetalles(listDetalleFacturas);
+	BigDecimal totalPagar = this.facturaService.procesarFactura(cedulaCliente, numeroFactura, codigoBarra);
 		
-		facturaRepository.insertar(factura);
-		
-		
-		BigDecimal monto= new BigDecimal(0);
-		FacturaElectronica facturaElectronica = new  FacturaElectronica();
-		facturaElectronica.setFechaCreacion(LocalDateTime.now());
-		for(DetalleFactura detalle : listDetalleFacturas) {
-		monto =monto.add(detalle.getSubtotal());
-			
-		}
-		
-		
-		facturaElectronica.setMontoFactura(monto);
-		facturaElectronica.setNumero(numeroFactura);
-		facturaElectronica.setNumeroItem(listDetalleFacturas.size());
-		//inserta factura electronica
-		this.electronicaRepository.insertar(facturaElectronica);
+		this.electronicaService.procesarElectronica(numeroFactura, codigoBarra.size(), totalPagar);
 	}
 
 	@Override

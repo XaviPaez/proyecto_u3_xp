@@ -71,7 +71,7 @@ public class MainInterfacesFuncionales {
 			Integer valorFinal = valor - 2;
 			return valorFinal;
 		};
-		LOG.info("Function Lambda: " + functionLambda.aplicar("7"));
+		LOG.info("Function Lambda: " + functionLambda. aplicar("7"));
 		//Metodos High Order
 		String valorFinalHO=metodosHO.consumirFunction(valor -> {
 			String retorn= valor.toString()+"A";

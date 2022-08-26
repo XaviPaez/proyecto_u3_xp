@@ -72,7 +72,7 @@ public class ProyectoU3XpApplication implements CommandLineRunner {
 		this.iProductoService.comprar("1725161", "1243121231", codigoBarra );
 	
 	
-		
+	
 	
 	
 		
