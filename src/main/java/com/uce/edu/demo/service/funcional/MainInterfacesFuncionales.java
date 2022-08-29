@@ -14,80 +14,103 @@ public class MainInterfacesFuncionales {
 
 		ConsumoMetodosHighOrder metodosHO = new ConsumoMetodosHighOrder();
 
+		
+		LOG.info("Ejemplos Supplier");
+		LOG.info("\n");
+
+		
 		// SUPPLIER
 		// Clases
-		IPersonaSupplier<String> supplier = new PersonaSupplierImpl();
+		IEstudianteSupplier<String> supplier = new EstudianteSupplierImpl();
 		LOG.info("Supplier Clase: " + supplier.getNombre());
-
-		IPersonaSupplier<String> supplierTE = new PersonaSupplierTEImpl();
-		LOG.info("Supplier Clase: " + supplierTE.getNombre());
-
 		// Lambdas
-		IPersonaSupplier<String> supplierLambda = () -> "Xavier 2";
-		LOG.info("Supplier Lmabda: " + supplierLambda.getNombre());
-
-		IPersonaSupplier<String> supplierLambdaTE = () -> "Pablo TE 2";
-		LOG.info("Supplier Lmabda: " + supplierLambdaTE.getNombre());
-
+		IEstudianteSupplier<String> supplierLambda = () -> "Estudiante Supplier";
+		LOG.info("Supplier Lambda: " + supplierLambda.getNombre());
 		// Metodos High Order
-		String valorHO = metodosHO.consumirSupplier(() -> "Hola mundo");
-		LOG.info("HO Supplier: " + valorHO);
+		String valorHo = metodosHO.consumirEstudianteSupplier(() -> "Estudiante Supplier High order");
+		LOG.info("HO Supplier Estudiante: " + valorHo);
 
-		String valorHO1 = metodosHO.consumirSupplier(() -> {
-			String valorConsultado = "127812781";
-			return valorConsultado;
-		});
-		LOG.info("HO Supplier: " + valorHO1);
+		LOG.info("\n");
+
+		LOG.info("Ejemplos Consumer");
+		
+		LOG.info("\n");
+
+
 		// CONSUMER
 		// Clases
-		IPersonaConsumer<String> consumerClase = new PersonaConsumerImpl();
-		consumerClase.accept("Prueba Consumer");
-
+		IEstudianteConsumer<String> consumer = new EstudianteConsumerImpl();
+		consumer.accept(" Consumer Estudiante");
 		// Lambdas
-		IPersonaConsumer<String> consumerLambda = cadena -> System.out.println(cadena);
-		consumerLambda.accept("Prueba consumer Lambda");
-		
-		//Metodos High Order
+		IEstudianteConsumer<String> consumerLambda = cadena -> LOG.info(cadena);
+		consumerLambda.accept("Consumer Lambda Estudiante");
+		// Metodos High Order
 		metodosHO.consumirConsumer(valor -> System.out.println(valor), 2);
 
+		LOG.info("\n");
+
+		LOG.info("Ejemplos Predicate");
+		LOG.info("\n");
+
+
 		// PREDICATE
-		// Clases
-
+		// Clase
+		IEstudiantePredicate<String> predicate = new EstudiantePredicateImpl();
+		predicate.evaluar("Predicate estudiante clase");
 		// Lambdas
+		IEstudiantePredicate<String> predicateLambda = cadena -> cadena.contains("p");
+		LOG.info("Predicate Lambda: " + predicateLambda.evaluar("Estudiante predicate"));
+		// Metodos High Order
+		boolean respuesta = metodosHO.consumirEstudiantePredicate(cadena -> cadena.contains("p"), "Estudiante predicate 2");
+		LOG.info("HO predicate" + respuesta);
 
-		IPersonaPredicate<String> predicateLambda = cadena -> cadena.contains("Z");
-		LOG.info("Predicate Lambda: " + predicateLambda.evaluar("EdiZon"));
+		LOG.info("\n");
+
+		LOG.info("Ejemplos Function");
+		LOG.info("\n");
+
 		
-		//Metodos High Order
-		boolean respuesta=metodosHO.consumirPredicate(cadena -> cadena.contains("Z"), "EdiZon");
-		LOG.info("HO PREDICATE" + respuesta);
 		// FUNCTION
 		// Clases
-
+		IEstudianteFunction<String, Integer> function = new EstudianteFunctionImpl();
+		LOG.info("Function clase: " + function.aplicar(3));
 		// Lambdas
-
-		IPersonaFunction<Integer, String> functionLambda = cadena -> {
+		IEstudianteFunction<Integer, String> functionLambda = cadena -> {
 			Integer valor = Integer.parseInt(cadena);
 			Integer valorFinal = valor - 2;
 			return valorFinal;
 		};
-		LOG.info("Function Lambda: " + functionLambda. aplicar("7"));
-		//Metodos High Order
-		String valorFinalHO=metodosHO.consumirFunction(valor -> {
-			String retorn= valor.toString()+"A";
+		LOG.info("Function Lambda: " + functionLambda.aplicar("7"));
+		// Metodos High Order
+		String valorFinalHO = metodosHO.consumirEstudianteFunction(valor -> {
+			String retorn = valor.toString() + "A";
 			return retorn;
-		},1);
-		LOG.info("HO Function: "+ valorFinalHO);
+		}, 1);
+		LOG.info("HO Function: " + valorFinalHO);
 
-		// UNARY OPERATOR(FUNCTION)
+		LOG.info("\n");
+
+		LOG.info("Ejemplos UnaryOperator");
+
+		LOG.info("\n");
+		
+		// UNARY LAMBDA OPERATOR
 		// Clases
 
+		IEstudianteFunctionUnaryOperator<String> unaryOperator=new EstudianteFunctionUnaryOperatorImpl();
+		LOG.info("Unary Operator Estudiante: " + unaryOperator.aplicar("Unary") );
 		// Lambdas
-		IPersonaFunctionUnaryOperator<String> unaryLambda = cade -> {
-			String valorFinal = cade.concat("sufijo");
+		IEstudianteFunctionUnaryOperator<String> unaryLambda = cadena -> {
+			String valorFinal = cadena.concat("cadena");
 			return valorFinal;
 		};
-		LOG.info("Predicate Lambda: " + unaryLambda.aplicar("Daniel"));
+	
+		// Metodos High Order
+		LOG.info("HO UnaryOperator");
+		LOG.info(metodosHO.consumirEstudianteUnaryOperator(unaryOperator, "Holaaa"));
+		
+
+
 
 	}
 
