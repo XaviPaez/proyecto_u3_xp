@@ -1,5 +1,12 @@
 package com.uce.edu.demo.service.funcional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,109 +16,59 @@ public class MainInterfacesFuncionales {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ProyectoU3XpApplication.class);
 
+	public static boolean prueba(Integer numero) {
+		return numero>=3;
+	}
+	public static void imprimir(String cadena) {
+		LOG.info("Impresion: "+ cadena);
+
+	}
+	public static void guardar() {
+		
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
+		
+		
 		ConsumoMetodosHighOrder metodosHO = new ConsumoMetodosHighOrder();
+		//SUPPLIER
+		//JAVA
+		LOG.info("Java Supplier");
+		Stream<String> test= Stream.generate(()-> "Edison 3").limit(7);
+		test.forEach(cadena -> System.out.println(cadena));
+		//JAVA
+		//CONSUMER
+		LOG.info("Java Consumer");
 
+		List<Integer> listaNumeros=Arrays.asList(1,2,3,4,5);
+		listaNumeros.forEach(numero -> System.out.println(numero));
 		
-		LOG.info("Ejemplos Supplier");
-		LOG.info("\n");
-
+		//PREDICATE
+		LOG.info("JAVA Predicate");
+		Stream<Integer> nuevaLista=listaNumeros.stream().filter(numero -> prueba(numero));
+		nuevaLista.forEach(numero -> System.out.println(numero));
 		
-		// SUPPLIER
-		// Clases
-		IEstudianteSupplier<String> supplier = new EstudianteSupplierImpl();
-		LOG.info("Supplier Clase: " + supplier.getNombre());
-		// Lambdas
-		IEstudianteSupplier<String> supplierLambda = () -> "Estudiante Supplier";
-		LOG.info("Supplier Lambda: " + supplierLambda.getNombre());
-		// Metodos High Order
-		String valorHo = metodosHO.consumirEstudianteSupplier(() -> "Estudiante Supplier High order");
-		LOG.info("HO Supplier Estudiante: " + valorHo);
-
-		LOG.info("\n");
-
-		LOG.info("Ejemplos Consumer");
+		//FUNCTION
+		LOG.info("JAVA Function");
+		//Conversiones/cast Empleado -> EmpleadoDTO (Ligero)
+		Stream<String> listaCambiada=listaNumeros.stream().map(numeroLista-> {
+			Integer valor=numeroLista +1;
+			String cadena = "num: "+valor.toString();
+			return cadena;
+		});
+		//Declarativa: ideas/intencion
+		listaCambiada.forEach(valor-> imprimir(valor));
+		List<String> lista1=new ArrayList<>();
+		Map<String, String> mpaq=new HashMap<String, String>();
 		
-		LOG.info("\n");
-
-
-		// CONSUMER
-		// Clases
-		IEstudianteConsumer<String> consumer = new EstudianteConsumerImpl();
-		consumer.accept(" Consumer Estudiante");
-		// Lambdas
-		IEstudianteConsumer<String> consumerLambda = cadena -> LOG.info(cadena);
-		consumerLambda.accept("Consumer Lambda Estudiante");
-		// Metodos High Order
-		metodosHO.consumirConsumer(valor -> System.out.println(valor), 2);
-
-		LOG.info("\n");
-
-		LOG.info("Ejemplos Predicate");
-		LOG.info("\n");
-
-
-		// PREDICATE
-		// Clase
-		IEstudiantePredicate<String> predicate = new EstudiantePredicateImpl();
-		predicate.evaluar("Predicate estudiante clase");
-		// Lambdas
-		IEstudiantePredicate<String> predicateLambda = cadena -> cadena.contains("p");
-		LOG.info("Predicate Lambda: " + predicateLambda.evaluar("Estudiante predicate"));
-		// Metodos High Order
-		boolean respuesta = metodosHO.consumirEstudiantePredicate(cadena -> cadena.contains("p"), "Estudiante predicate 2");
-		LOG.info("HO predicate" + respuesta);
-
-		LOG.info("\n");
-
-		LOG.info("Ejemplos Function");
-		LOG.info("\n");
-
+		//Imperativa: paso a paso
 		
-		// FUNCTION
-		// Clases
-		IEstudianteFunction<String, Integer> function = new EstudianteFunctionImpl();
-		LOG.info("Function clase: " + function.aplicar(3));
-		// Lambdas
-		IEstudianteFunction<Integer, String> functionLambda = cadena -> {
-			Integer valor = Integer.parseInt(cadena);
-			Integer valorFinal = valor - 2;
-			return valorFinal;
-		};
-		LOG.info("Function Lambda: " + functionLambda.aplicar("7"));
-		// Metodos High Order
-		String valorFinalHO = metodosHO.consumirEstudianteFunction(valor -> {
-			String retorn = valor.toString() + "A";
-			return retorn;
-		}, 1);
-		LOG.info("HO Function: " + valorFinalHO);
-
-		LOG.info("\n");
-
-		LOG.info("Ejemplos UnaryOperator");
-
-		LOG.info("\n");
-		
-		// UNARY LAMBDA OPERATOR
-		// Clases
-
-		IEstudianteFunctionUnaryOperator<String> unaryOperator=new EstudianteFunctionUnaryOperatorImpl();
-		LOG.info("Unary Operator Estudiante: " + unaryOperator.aplicar("Unary") );
-		// Lambdas
-		IEstudianteFunctionUnaryOperator<String> unaryLambda = cadena -> {
-			String valorFinal = cadena.concat("cadena");
-			return valorFinal;
-		};
+		//for(String valor:) {
+		//	imprimir(valor);
+		//}
 	
-		// Metodos High Order
-		LOG.info("HO UnaryOperator");
-		LOG.info(metodosHO.consumirEstudianteUnaryOperator(unaryOperator, "Holaaa"));
-		
-
-
-
 	}
 
 }
