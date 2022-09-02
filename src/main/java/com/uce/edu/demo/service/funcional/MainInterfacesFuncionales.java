@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -17,58 +19,55 @@ public class MainInterfacesFuncionales {
 	private static final Logger LOG = LoggerFactory.getLogger(ProyectoU3XpApplication.class);
 
 	public static boolean prueba(Integer numero) {
-		return numero>=3;
+		return numero >= 3;
 	}
+
 	public static void imprimir(String cadena) {
-		LOG.info("Impresion: "+ cadena);
+		LOG.info("Impresion: " + cadena);
 
 	}
+
 	public static void guardar() {
-		
+
 	}
-	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		
-		
 		ConsumoMetodosHighOrder metodosHO = new ConsumoMetodosHighOrder();
-		//SUPPLIER
-		//JAVA
+		// SUPPLIER
+		// JAVA
 		LOG.info("Java Supplier");
-		Stream<String> test= Stream.generate(()-> "Edison 3").limit(7);
-		test.forEach(cadena -> System.out.println(cadena));
-		//JAVA
-		//CONSUMER
-		LOG.info("Java Consumer");
+		Random rand = new Random();
+		Stream<Integer> stream = Stream.generate(() -> rand.nextInt(100)).limit(20);
+		stream.forEach(cadena -> System.out.println(cadena));
 
-		List<Integer> listaNumeros=Arrays.asList(1,2,3,4,5);
-		listaNumeros.forEach(numero -> System.out.println(numero));
-		
-		//PREDICATE
+		// CONSUMER
+		// JAVA
+		LOG.info("Java consumer");
+
+		List<String> listaPalabras = Arrays.asList("Xavier", "Sebastian", "Mike", "Pablo");
+		listaPalabras.forEach(System.out::println);
+
+		// PREDICATE
+		// JAVA
 		LOG.info("JAVA Predicate");
-		Stream<Integer> nuevaLista=listaNumeros.stream().filter(numero -> prueba(numero));
-		nuevaLista.forEach(numero -> System.out.println(numero));
+		List<String> nombres = Arrays.asList("Pablo", "Miguel", "Romina", "Xavier");
+		List<String> listaNombres = nombres.stream().filter(nombre -> nombre.startsWith("X"))
+				.collect(Collectors.toList());
+		listaNombres.forEach(System.out::println);
 		
 		//FUNCTION
+		//JAVA
 		LOG.info("JAVA Function");
-		//Conversiones/cast Empleado -> EmpleadoDTO (Ligero)
-		Stream<String> listaCambiada=listaNumeros.stream().map(numeroLista-> {
-			Integer valor=numeroLista +1;
-			String cadena = "num: "+valor.toString();
-			return cadena;
-		});
-		//Declarativa: ideas/intencion
-		listaCambiada.forEach(valor-> imprimir(valor));
-		List<String> lista1=new ArrayList<>();
-		Map<String, String> mpaq=new HashMap<String, String>();
+		LOG.info("Se cambia la letra a por la 0 si cumple con la condicion");
+
 		
-		//Imperativa: paso a paso
+		 Stream<String> listaCambiada=nombres.stream().filter(nombre -> nombre.contains("a")).map(nombreLista-> nombreLista.replace("a", "o"));
+			listaCambiada.forEach(System.out::println);
 		
-		//for(String valor:) {
-		//	imprimir(valor);
-		//}
-	
+		
+		
 	}
 
 }
